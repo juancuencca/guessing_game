@@ -2,7 +2,7 @@ use std::io::{self, Write};
 use rand::Rng;
 
 fn main() {
-    println!("Welcome to the Number Guessing Game!\n");
+    println!("Welcome to the Number Guessing Game!");
     println!("I'm thinking of a number between 1 and 100.\n");
     let number: u8 = rand::thread_rng().gen_range(1..=100);
 
@@ -12,7 +12,7 @@ fn main() {
         println!("2. Medium (5 chances)");
         println!("3. Hard (3 chances)");
 
-        print!("\nEnter your choice: ");
+        print!("Enter your choice: ");
         io::stdout().flush().unwrap();
 
         let mut level = String::new();
@@ -31,7 +31,7 @@ fn main() {
     let chances = levels[(level -1 ) as usize].1; 
 
     println!("Great! You have selected the {} difficulty level. So you have {} chances.", difficulty, chances);
-    println!("\nLet's start the game!");
+    print!("\nLet's start the game!");
 
     for i in 0..chances {
         print!("\nEnter your guess: ");
