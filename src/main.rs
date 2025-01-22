@@ -1,8 +1,10 @@
 use std::io::{self, Write};
+use rand::Rng;
 
 fn main() {
     println!("Welcome to the Number Guessing Game!\n");
     println!("I'm thinking of a number between 1 and 100.\n");
+    let number: u8 = rand::thread_rng().gen_range(1..=100);
 
     let level = loop {
         println!("Please select the difficulty level:");
@@ -28,18 +30,31 @@ fn main() {
     let difficulty = levels[(level -1 ) as usize].0; 
     let chances = levels[(level -1 ) as usize].1; 
 
-    println!("\nGreat! You have selected the {} difficulty level. So you have {} chances.", difficulty, chances);
-    println!("Let's start the game!");
+    println!("Great! You have selected the {} difficulty level. So you have {} chances.", difficulty, chances);
+    println!("\nLet's start the game!");
 
-// Enter your guess: 50
-// Incorrect! The number is less than 50.
+    for i in 0..chances {
+        print!("\nEnter your guess: ");
+        io::stdout().flush().unwrap();
 
-// Enter your guess: 25
-// Incorrect! The number is greater than 25.
+        let mut guess = String::new();
+        io::stdin().read_line(&mut guess).unwrap();
 
-// Enter your guess: 35
-// Incorrect! The number is less than 35.
+        let guess = match guess.trim().parse::<u8>() {
+            Ok(guess) if (1..=100).contains(&guess) => guess, 
+            _ => {
+                println!("Invalid input. Please enter a number between 1 and 100.");
+                continue;
+            }
+        };
 
-// Enter your guess: 30
-// Congratulations! You guessed the correct number in 4 attempts.
+        if guess == number {
+            println!("Congratulations! You guessed the correct number in {} attempts.", i + 1);
+            break;
+        } else if guess < number {
+            println!("Incorrect! The number is greater than {}.", guess);
+        } else {
+            println!("Incorrect! The number is less than {}.", guess);
+        }
+    }
 }
